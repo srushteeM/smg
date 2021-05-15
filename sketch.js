@@ -24,7 +24,7 @@ var player1RightPunch,
   player1RightKick,
   player1LeftLoose;
 var player1Win;
-var pMode = 2;
+var pMode ;
 var restart, restImg;
 
 var player2LeftPunch,
@@ -305,7 +305,7 @@ function preload() {
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
-  frameRate(50);
+  frameRate(30);
   gameState = "play";
 
   player1 = createSprite(300, height - 300, 50, 50);
@@ -364,6 +364,8 @@ function setup() {
   restart.addImage(restImg);
   restart.scale = 0.01;
   restart.visible = false;
+
+  pMode=2;
 }
 
 function draw() {
@@ -392,7 +394,7 @@ function draw() {
       player1.x -= 10;
       player1.changeAnimation("player1LeftMove", player1LeftMove);
     }
-    console.log(healthLevel1);
+   
 
     //Function for player1 jumping
 
@@ -416,7 +418,9 @@ function draw() {
     if (keyDown("s")) {
       player1.changeAnimation("player1LeftCrouch", player1LeftCrouch);
     }
-
+else if(keyWentUp("e") || keyWentUp("q")){
+  pMode=2
+}
     //player2 functions
 
     if (keyDown(RIGHT_ARROW)) {
@@ -451,6 +455,9 @@ function draw() {
     if (keyDown("DOWN_ARROW")) {
       player2.changeAnimation("player2RightCrouch", player2RightCrouch);
     }
+    else if(keyWentUp("m") || keyWentUp("l")){
+      pMode=2
+    }
     //health
     if (player1.isTouching(player2) && pMode === 0 && frameCount % 2 === 0) {
       healthLevel2.x += 2;
@@ -458,7 +465,7 @@ function draw() {
     if (player2.isTouching(player1) && pMode === 1 && frameCount % 2 === 0) {
       healthLevel1.x -= 2;
     }
-    console.log(player1.y, player2.y);
+  
     if (healthLevel1.x < -140) {
       gameState = "redWin";
 
